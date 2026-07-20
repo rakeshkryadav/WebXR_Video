@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>UPICON</title>
+
+        <link rel="stylesheet" href="style.css">
+
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "https://unpkg.com/three@0.152.2/build/three.module.js",
+                    "three/addons/": "https://unpkg.com/three@0.152.2/examples/jsm/"
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+
+        <div class="container">
+            <button id="shareBtn">
+                <img src="images/share.png" alt="Share">
+                <span>Share</span>
+            </button>
+        </div>
+
+        <div class="panel">
+
+            <div class="text">
+                <h3>Share as</h3>
+            </div>
+
+            <button class="card-btn" data-image="images/upicon.jpg">
+                <img src="images/upicon.jpg" alt="">
+                <div class="text">
+                    <h3>UPICON</h3>
+                </div>
+            </button>
+
+            <button class="card-btn" data-image="images/varion.jpg">
+                <img src="images/varion.jpg" alt="">
+                <div class="text">
+                    <h3>Varion Advisors</h3>
+                </div>
+            </button>
+
+            <button class="card-btn" data-image="images/ufs.jpg">
+                <img src="images/ufs.jpg" alt="">
+                <div class="text">
+                    <h3>UFS Digital</h3>
+                </div>
+            </button>
+
+        </div>
+
+        <script type="module" src="script.js"></script>
+
+    </body>
+</html>
