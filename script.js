@@ -22,9 +22,9 @@ const mixers = [];
 const billboards = [];
 
 const textFiles = [
-    "vaaText.glb",
-    "ufsText.glb",
-    "upiconText.glb"
+    "model/vaaText.glb",
+    "model/ufsText.glb",
+    "model/upiconText.glb"
 ];
 
 // Create an anchor for each image target
@@ -37,7 +37,7 @@ for (let i = 0; i < 3; i++) {
     billboards.push(billboard);
 
     // Load the model
-    loader.load("model.glb", (gltf) => {
+    loader.load("model/model.glb", (gltf) => {
 
         gltf.scene.scale.set(0.6, 0.6, 0.6);
         gltf.scene.position.set(0, 0.5, 0);
@@ -96,6 +96,47 @@ renderer.setAnimationLoop(() => {
     renderer.render(scene, camera);
 
 });
+
+// Video
+const video = document.createElement("video");
+video.src = "video/video.mp4";
+video.crossOrigin = "anonymous";
+video.loop = true;
+video.muted = true;          // Required for autoplay on most browsers
+video.playsInline = true;    // Important for iOS
+video.preload = "auto";
+
+const videoTexture = new THREE.VideoTexture(video);
+videoTexture.colorSpace = THREE.SRGBColorSpace;
+
+const geometry = new THREE.PlaneGeometry(1, 0.5625); // 16:9
+const material = new THREE.MeshBasicMaterial({
+    map: videoTexture,
+    side: THREE.DoubleSide
+});
+
+const plane = new THREE.Mesh(geometry, material);
+
+const anchor = mindarThree.addAnchor(0);
+
+anchor.group.add(plane);
+
+anchor.onTargetFound = () => {
+    video.play();
+};
+
+anchor.onTargetLost = () => {
+    video.pause();
+    video.currentTime = 0;   // Optional: restart next time
+};
+
+await mindarThree.start();
+
+renderer.setAnimationLoop(() => {
+    renderer.render(scene, camera);
+});
+
+
 
 // Share Button
 const shareBtn = document.getElementById("shareBtn");
