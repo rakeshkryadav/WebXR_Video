@@ -52,42 +52,6 @@ for (let i = 0; i < 3; i++) {
     videos.push(video);
 }
 
-// Create video texture
-const videoTexture = new THREE.VideoTexture(video);
-
-// Create material
-const material = new THREE.MeshBasicMaterial({
-    map: videoTexture,
-    side: THREE.DoubleSide,
-    toneMapped: false
-});
-
-// Plane size (16:9)
-const plane = new THREE.Mesh(
-    new THREE.PlaneGeometry(1, 0.5625),
-    material
-);
-
-anchor.group.add(plane);
-
-// Play video when target is found
-anchor.onTargetFound = async () => {
-    console.log("Target Found");
-
-    try {
-        await video.play();
-    } catch (err) {
-        console.error("Video play failed:", err);
-    }
-};
-
-// Pause when target is lost
-anchor.onTargetLost = () => {
-    console.log("Target Lost");
-    video.pause();
-    video.currentTime = 0;
-};
-
 await mindarThree.start();
 
 renderer.setAnimationLoop(() => {
