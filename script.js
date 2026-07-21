@@ -57,3 +57,69 @@ await mindarThree.start();
 renderer.setAnimationLoop(() => {
     renderer.render(scene, camera);
 });
+
+
+// Share Button
+const shareBtn = document.getElementById("shareBtn");
+const panel = document.querySelector(".panel");
+
+shareBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    panel.classList.toggle("show");
+});
+
+// Hide when clicking outside
+document.addEventListener("click", (e) => {
+    if (!panel.contains(e.target) && !shareBtn.contains(e.target)) {
+        panel.classList.remove("show");
+    }
+});
+
+
+// Share Website
+document.querySelectorAll(".card-btn").forEach(button => {
+    button.addEventListener("click", () => {
+        shareWebsite(
+            button.dataset.image
+        );
+    });
+});
+
+async function shareWebsite(imagePath, text, url) {
+    // Hide panel
+        panel.classList.remove("show");
+
+    try {
+        await mindarThree.stop();
+
+        const response = await fetch(imagePath);
+        const blob = await response.blob();
+
+        const extension = imagePath.split(".").pop();
+
+        const file = new File(
+            [blob],
+            `share.${extension}`,
+            { type: blob.type }
+        );
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+
+            await navigator.share({
+                files: [file],
+                text: "Check out AR Experience!\nhttps://rakeshkryadav.github.io/WebXR_Project"
+            });
+
+        } else {
+            alert("Your browser doesn't support file sharing.");
+        }
+
+    } catch (err) {
+        console.error(err);
+    } finally {
+        // Restart camera when the user returns
+        try {
+            await mindarThree.start();
+        } catch (e) {}
+    }
+}
