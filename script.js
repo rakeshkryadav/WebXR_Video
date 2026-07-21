@@ -12,7 +12,46 @@ const { renderer, scene, camera } = mindarThree;
 const anchor = mindarThree.addAnchor(0);
 
 // Create video element
-const video = document.createElement("video");
+const videos = [];
+
+for (let i = 0; i < 3; i++) {
+
+    const anchor = mindarThree.addAnchor(i);
+
+    const video = document.createElement("video");
+    video.src = "video/video.mp4";
+    video.loop = true;
+    video.muted = true;
+    video.playsInline = true;
+    video.load();
+
+    const texture = new THREE.VideoTexture(video);
+
+    const plane = new THREE.Mesh(
+        new THREE.PlaneGeometry(1, 0.5625),
+        new THREE.MeshBasicMaterial({
+            map: texture,
+            side: THREE.DoubleSide,
+            toneMapped: false
+        })
+    );
+
+    anchor.group.add(plane);
+
+    anchor.onTargetFound = async () => {
+        console.log(`Target ${i} Found`);
+        await video.play();
+    };
+
+    anchor.onTargetLost = () => {
+        console.log(`Target ${i} Lost`);
+        video.pause();
+        video.currentTime = 0;
+    };
+
+    videos.push(video);
+}
+
 video.src = "video/video.mp4";
 video.loop = true;
 video.muted = true;
