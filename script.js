@@ -11,6 +11,8 @@ const { renderer, scene, camera } = mindarThree;
 // Create video element
 const videos = [];
 
+console.log("SCRIPT LOADED 01");
+
 for (let i = 0; i < 3; i++) {
 
     const anchor = mindarThree.addAnchor(i);
