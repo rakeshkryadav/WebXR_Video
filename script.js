@@ -8,9 +8,6 @@ const mindarThree = new MindARThree({
 
 const { renderer, scene, camera } = mindarThree;
 
-// Create anchor for target index 0
-const anchor = mindarThree.addAnchor(0);
-
 // Create video element
 const videos = [];
 
@@ -23,6 +20,7 @@ for (let i = 0; i < 3; i++) {
     video.loop = true;
     video.muted = true;
     video.playsInline = true;
+    video.crossOrigin = "anonymous";
     video.load();
 
     const texture = new THREE.VideoTexture(video);
