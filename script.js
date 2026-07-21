@@ -52,14 +52,6 @@ for (let i = 0; i < 3; i++) {
     videos.push(video);
 }
 
-video.src = "video/video.mp4";
-video.loop = true;
-video.muted = true;
-video.playsInline = true;
-video.crossOrigin = "anonymous";
-video.preload = "auto";
-video.load();
-
 // Create video texture
 const videoTexture = new THREE.VideoTexture(video);
 
