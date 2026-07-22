@@ -8,15 +8,17 @@ const mindarThree = new MindARThree({
 
 const { renderer, scene, camera } = mindarThree;
 
-// Create video element
-const videos = [];
+// Raycaster for touch/click detection
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
 
-console.log("SCRIPT LOADED 01");
+const clickableObjects = [];
 
 for (let i = 0; i < 3; i++) {
 
     const anchor = mindarThree.addAnchor(i);
 
+    // Video
     const video = document.createElement("video");
     video.src = "video/video.mp4";
     video.loop = true;
@@ -27,7 +29,7 @@ for (let i = 0; i < 3; i++) {
 
     const texture = new THREE.VideoTexture(video);
 
-    const plane = new THREE.Mesh(
+    const videoPlane = new THREE.Mesh(
         new THREE.PlaneGeometry(1, 0.5625),
         new THREE.MeshBasicMaterial({
             map: texture,
@@ -36,8 +38,46 @@ for (let i = 0; i < 3; i++) {
         })
     );
 
-    anchor.group.add(plane);
+    anchor.group.add(videoPlane);
 
+    // Play Button
+    const playTexture = new THREE.TextureLoader().load("images/play.png");
+
+    const playButton = new THREE.Mesh(
+        new THREE.PlaneGeometry(0.15, 0.15),
+        new THREE.MeshBasicMaterial({
+            map: playTexture,
+            transparent: true
+        })
+    );
+
+    playButton.position.set(-0.15, -0.38, 0.01);
+
+    anchor.group.add(playButton);
+
+    // Pause Button
+    const pauseTexture = new THREE.TextureLoader().load("images/pause.png");
+
+    const pauseButton = new THREE.Mesh(
+        new THREE.PlaneGeometry(0.15, 0.15),
+        new THREE.MeshBasicMaterial({
+            map: pauseTexture,
+            transparent: true
+        })
+    );
+
+    pauseButton.position.set(0.15, -0.38, 0.01);
+
+    anchor.group.add(pauseButton);
+
+    // Save references for click detection
+    clickableObjects.push({
+        playButton,
+        pauseButton,
+        video
+    });
+
+    // Auto play when target found
     anchor.onTargetFound = async () => {
         console.log(`Target ${i} Found`);
         await video.play();
@@ -46,32 +86,46 @@ for (let i = 0; i < 3; i++) {
     anchor.onTargetLost = () => {
         console.log(`Target ${i} Lost`);
         video.pause();
-        video.currentTime = 0;
     };
-
-    videos.push(video);
 }
 
-await mindarThree.start();
+// Interaction Handle
+function handleInteraction(event) {
 
-const playBtn = document.getElementById("playBtn");
-const pauseBtn = document.getElementById("pauseBtn");
+    const x = event.touches ? event.touches[0].clientX : event.clientX;
+    const y = event.touches ? event.touches[0].clientY : event.clientY;
 
-playBtn.addEventListener("click", async () => {
-    for (const video of videos) {
-        try {
-            await video.play();
-        } catch (e) {
-            console.error(e);
+    mouse.x = (x / window.innerWidth) * 2 - 1;
+    mouse.y = -(y / window.innerHeight) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+
+    clickableObjects.forEach(async (item) => {
+
+        // Play button
+        let hits = raycaster.intersectObject(item.playButton);
+
+        if (hits.length > 0) {
+            await item.video.play();
+            console.log("Play");
         }
-    }
-});
 
-pauseBtn.addEventListener("click", () => {
-    for (const video of videos) {
-        video.pause();
-    }
-});
+        // Pause button
+        hits = raycaster.intersectObject(item.pauseButton);
+
+        if (hits.length > 0) {
+            item.video.pause();
+            console.log("Pause");
+        }
+
+    });
+}
+
+window.addEventListener("click", handleInteraction);
+window.addEventListener("touchstart", handleInteraction);
+
+// Start AR
+await mindarThree.start();
 
 renderer.setAnimationLoop(() => {
     renderer.render(scene, camera);
