@@ -54,12 +54,34 @@ for (let i = 0; i < 3; i++) {
 
 await mindarThree.start();
 
+const playBtn = document.getElementById("playBtn");
+const pauseBtn = document.getElementById("pauseBtn");
+
+playBtn.addEventListener("click", async () => {
+    for (const video of videos) {
+        try {
+            await video.play();
+        } catch (e) {
+            console.error(e);
+        }
+    }
+});
+
+pauseBtn.addEventListener("click", () => {
+    for (const video of videos) {
+        video.pause();
+    }
+});
+
 renderer.setAnimationLoop(() => {
     renderer.render(scene, camera);
 });
 
 
 // Share Button
+var message = "Check out AR Experience!";
+var url = "https://rakeshkryadav.github.io/WebXR_Video";
+
 const shareBtn = document.getElementById("shareBtn");
 const panel = document.querySelector(".panel");
 
@@ -107,7 +129,7 @@ async function shareWebsite(imagePath, text, url) {
 
             await navigator.share({
                 files: [file],
-                text: "Check out AR Experience!\nhttps://rakeshkryadav.github.io/WebXR_Project"
+                text: text + "\n" + url
             });
 
         } else {
