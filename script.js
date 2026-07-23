@@ -32,7 +32,7 @@ for (let i = 0; i < 3; i++) {
     const texture = new THREE.VideoTexture(video);
 
     const videoPlane = new THREE.Mesh(
-        new THREE.PlaneGeometry(1, 0.5625),
+        new THREE.PlaneGeometry(2, 1.125),
         new THREE.MeshBasicMaterial({
             map: texture,
             side: THREE.DoubleSide,
@@ -57,7 +57,7 @@ for (let i = 0; i < 3; i++) {
         })
     );
 
-    playPauseButton.position.set(0, -0.38, 0.01);
+    playPauseButton.position.set(0, -0.22, 0.01);
 
     anchor.group.add(playPauseButton);
 
