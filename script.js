@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { MindARThree } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
 
+console.log("test 02");
+
 const mindarThree = new MindARThree({
     container: document.body,
     imageTargetSrc: "cards.mind"
@@ -97,10 +99,12 @@ function handleInteraction(event) {
         if (hits.length > 0) {
 
             if (item.video.paused) {
+                item.video.muted = false;
                 item.video.play();
                 item.button.material.map = item.pauseTexture;
                 console.log("Play");
             } else {
+                item.video.muted = true;
                 item.video.pause();
                 item.button.material.map = item.playTexture;
                 console.log("Pause");
