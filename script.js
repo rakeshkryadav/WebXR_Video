@@ -40,7 +40,7 @@ for (let i = 0; i < 3; i++) {
         })
     );
 
-    videoPlane.position.set(0, 0.5, 0);
+    videoPlane.position.set(0, 1, 0);
 
     anchor.group.add(videoPlane);
 
@@ -50,14 +50,14 @@ for (let i = 0; i < 3; i++) {
 
     // Single button
     const playPauseButton = new THREE.Mesh(
-        new THREE.PlaneGeometry(0.15, 0.15),
+        new THREE.PlaneGeometry(0.3, 0.3),
         new THREE.MeshBasicMaterial({
             map: pauseTexture, // Video starts playing when target is found
             transparent: true
         })
     );
 
-    playPauseButton.position.set(0, -0.22, 0.01);
+    playPauseButton.position.set(0, -0.78, 0.01);
 
     anchor.group.add(playPauseButton);
 
