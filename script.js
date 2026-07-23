@@ -112,8 +112,7 @@ function handleInteraction(event) {
     });
 }
 
-window.addEventListener("click", handleInteraction);
-window.addEventListener("touchstart", handleInteraction);
+window.addEventListener("pointerdown", handleInteraction);
 
 // Start AR
 await mindarThree.start();
