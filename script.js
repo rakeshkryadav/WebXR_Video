@@ -40,52 +40,42 @@ for (let i = 0; i < 3; i++) {
 
     anchor.group.add(videoPlane);
 
-    // Play Button
+    // Play/Pause Button
     const playTexture = new THREE.TextureLoader().load("images/play.png");
-
-    const playButton = new THREE.Mesh(
-        new THREE.PlaneGeometry(0.15, 0.15),
-        new THREE.MeshBasicMaterial({
-            map: playTexture,
-            transparent: true
-        })
-    );
-
-    playButton.position.set(-0.15, -0.38, 0.01);
-
-    anchor.group.add(playButton);
-
-    // Pause Button
     const pauseTexture = new THREE.TextureLoader().load("images/pause.png");
 
-    const pauseButton = new THREE.Mesh(
+    // Single button
+    const playPauseButton = new THREE.Mesh(
         new THREE.PlaneGeometry(0.15, 0.15),
         new THREE.MeshBasicMaterial({
-            map: pauseTexture,
+            map: pauseTexture, // Video starts playing when target is found
             transparent: true
         })
     );
 
-    pauseButton.position.set(0.15, -0.38, 0.01);
+    playPauseButton.position.set(0, -0.38, 0.01);
 
-    anchor.group.add(pauseButton);
+    anchor.group.add(playPauseButton);
 
     // Save references for click detection
     clickableObjects.push({
-        playButton,
-        pauseButton,
-        video
+        button: playPauseButton,
+        video,
+        playTexture,
+        pauseTexture
     });
 
     // Auto play when target found
     anchor.onTargetFound = async () => {
-        console.log(`Target ${i} Found`);
         await video.play();
+        playPauseButton.material.map = pauseTexture;
+        playPauseButton.material.needsUpdate = true;
     };
 
     anchor.onTargetLost = () => {
-        console.log(`Target ${i} Lost`);
         video.pause();
+        playPauseButton.material.map = playTexture;
+        playPauseButton.material.needsUpdate = true;
     };
 }
 
@@ -100,22 +90,23 @@ function handleInteraction(event) {
 
     raycaster.setFromCamera(mouse, camera);
 
-    clickableObjects.forEach(async (item) => {
+    clickableObjects.forEach((item) => {
 
-        // Play button
-        let hits = raycaster.intersectObject(item.playButton);
-
-        if (hits.length > 0) {
-            await item.video.play();
-            console.log("Play");
-        }
-
-        // Pause button
-        hits = raycaster.intersectObject(item.pauseButton);
+        const hits = raycaster.intersectObject(item.button);
 
         if (hits.length > 0) {
-            item.video.pause();
-            console.log("Pause");
+
+            if (item.video.paused) {
+                item.video.play();
+                item.button.material.map = item.pauseTexture;
+                console.log("Play");
+            } else {
+                item.video.pause();
+                item.button.material.map = item.playTexture;
+                console.log("Pause");
+            }
+
+            item.button.material.needsUpdate = true;
         }
 
     });
