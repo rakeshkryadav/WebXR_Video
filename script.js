@@ -57,7 +57,7 @@ for (let i = 0; i < 3; i++) {
         })
     );
 
-    playPauseButton.position.set(0, -0.78, 0.01);
+    playPauseButton.position.set(0, 0.78, 0.01);
 
     anchor.group.add(playPauseButton);
 
