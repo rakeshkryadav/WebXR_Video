@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { MindARThree } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
 
-console.log("test 06");
+console.log("test 07");
 
 const mindarThree = new MindARThree({
     container: document.body,
@@ -15,6 +15,8 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 const clickableObjects = [];
+
+const messageText = "Tap to Play";
 
 for (let i = 0; i < 3; i++) {
 
@@ -42,7 +44,35 @@ for (let i = 0; i < 3; i++) {
 
     videoPlane.position.set(0, 1, 0);
 
-    anchor.group.add(videoPlane);
+    // Text
+    function createTextTexture(text) {
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+
+        canvas.width = 512;
+        canvas.height = 128;
+
+        context.font = "96px Arial";
+        context.fillStyle = "white";
+        context.textAlign = "center";
+        context.textBaseline = "middle";
+        context.fillText(text, canvas.width / 2, canvas.height / 2);
+
+        return new THREE.CanvasTexture(canvas);
+    }
+
+    const textTexture = createTextTexture(messageText);
+
+    const textMesh = new THREE.Sprite(
+        new THREE.SpriteMaterial({
+            map: textTexture,
+            transparent: true
+        })
+    );
+
+    textMesh.scale.set(0.5, 0.125, 1);
+    textMesh.position.set(0, -0.52, 0.01);
+
 
     // Play/Pause Button
     const playTexture = new THREE.TextureLoader().load("images/play.png");
@@ -59,7 +89,9 @@ for (let i = 0; i < 3; i++) {
 
     playPauseButton.position.set(0, 0.25, 0.01);
 
+    anchor.group.add(videoPlane);
     anchor.group.add(playPauseButton);
+    anchor.group.add(textMesh);
 
     // Save references for click detection
     clickableObjects.push({
