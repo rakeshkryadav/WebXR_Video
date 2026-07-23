@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { MindARThree } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
 
-console.log("test 03");
+console.log("test 04");
 
 const mindarThree = new MindARThree({
     container: document.body,
@@ -69,8 +69,6 @@ for (let i = 0; i < 3; i++) {
 
     // Auto play when target found
     anchor.onTargetFound = async () => {
-        await video.play();
-        video.muted = false;
         playPauseButton.material.map = pauseTexture;
         playPauseButton.material.needsUpdate = true;
     };
