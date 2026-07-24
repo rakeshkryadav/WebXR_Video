@@ -16,7 +16,7 @@ const mouse = new THREE.Vector2();
 
 const clickableObjects = [];
 
-const messageText = "Tap to Play";
+const messageText = "Click the Play Button to Start Video";
 
 for (let i = 0; i < 3; i++) {
 
@@ -49,16 +49,27 @@ for (let i = 0; i < 3; i++) {
         const canvas = document.createElement("canvas");
         const context = canvas.getContext("2d");
 
-        canvas.width = 512;
-        canvas.height = 128;
+        canvas.width = 1600;
+        canvas.height = 150;
 
+        // Set font after resizing canvas
         context.font = "96px Arial";
+
+        // Background
+        context.beginPath();
+        context.roundRect(0, 0, canvas.width, canvas.height, 30);
+        context.fillStyle = "rgba(0,0,0,0.9)";
+        context.fill();
+
+        // Text
         context.fillStyle = "white";
         context.textAlign = "center";
         context.textBaseline = "middle";
         context.fillText(text, canvas.width / 2, canvas.height / 2);
 
-        return new THREE.CanvasTexture(canvas);
+        const texture = new THREE.CanvasTexture(canvas);
+        texture.needsUpdate = true;
+        return texture;
     }
 
     const textTexture = createTextTexture(messageText);
