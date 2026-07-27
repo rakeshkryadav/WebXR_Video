@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { MindARThree } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-console.log("test 09");
+console.log("test 10");
 
 const mindarThree = new MindARThree({
     container: document.body,
@@ -14,6 +14,9 @@ const mindarThree = new MindARThree({
 });
 
 const { renderer, scene, camera } = mindarThree;
+
+// Create a HemisphereLight and add it to the scene
+scene.add(new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1));
 
 // Raycaster for touch/click detection
 const raycaster = new THREE.Raycaster();
