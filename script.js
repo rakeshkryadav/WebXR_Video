@@ -20,7 +20,9 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 const clickableObjects = [];
+
 const loader = new GLTFLoader();
+const mixers = [];
 
 const messageText = "Click the Play Button to Start Video";
 
