@@ -85,63 +85,69 @@ for (let i = 0; i < 3; i++) {
 
         canvas.width = 800;
 
-        // Font
-        const fontSize = 150;
+        const fontSize = 100;
+        const padding = 30;
+        const lineHeight = fontSize + 15;
+
         context.font = `${fontSize}px Arial`;
 
-        const maxWidth = canvas.width - 80; // 40px padding on each side
-        const lineHeight = fontSize + 20;
+        // Wrap text
+        const maxWidth = canvas.width - padding * 2;
 
-        // Wrap Text
         const words = text.split(" ");
         const lines = [];
         let line = "";
 
-        words.forEach(word => {
-            const testLine = line ? `${line} ${word}` : word;
-            const width = context.measureText(testLine).width;
+        for (const word of words) {
 
-            if (width > maxWidth) {
+            const testLine = line ? line + " " + word : word;
+
+            if (context.measureText(testLine).width > maxWidth) {
                 lines.push(line);
                 line = word;
-            } else {
+            }
+            else {
                 line = testLine;
             }
-        });
+        }
 
         if (line) lines.push(line);
 
         // Resize canvas
-        canvas.height = lines.length * lineHeight + 60;
+        canvas.height = lines.length * lineHeight + padding * 2;
 
-        // Need to reset font after changing canvas size
+        // Reset after resizing
         context.font = `${fontSize}px Arial`;
 
         // Background
-        context.beginPath();
-        context.roundRect(0, 0, canvas.width, canvas.height, 30);
-        context.fillStyle = "rgba(0,0,0,0.9)";
-        context.fill();
+        context.fillStyle = "rgba(0,0,0,0.85)";
+        context.fillRect(0, 0, canvas.width, canvas.height);
 
         // Text
         context.fillStyle = "white";
         context.textAlign = "center";
         context.textBaseline = "middle";
 
-        const startY = (canvas.height - (lines.length - 1) * lineHeight) / 2;
+        const startY =
+            (canvas.height - (lines.length - 1) * lineHeight) / 2;
 
-        lines.forEach((line, index) => {
+        lines.forEach((line, i) => {
+
             context.fillText(
                 line,
                 canvas.width / 2,
-                startY + index * lineHeight
+                startY + i * lineHeight
             );
+
         });
 
         const texture = new THREE.CanvasTexture(canvas);
         texture.needsUpdate = true;
 
-        return texture;
+        return {
+            texture,
+            aspect: canvas.width / canvas.height
+        };
     }
 
     // Create text texture
