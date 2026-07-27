@@ -28,7 +28,7 @@ const loader = new GLTFLoader();
 const mixers = [];
 const clock = new THREE.Clock();
 
-const messageText = "Click the Play Button to Start Video";
+const messageText = "UPICON wishes you Happy 80th Independence Day";
 
 for (let i = 0; i < 3; i++) {
 
