@@ -163,7 +163,7 @@ for (let i = 0; i < 3; i++) {
     );
 
     // Height of the sprite in world units
-    const height = 1;
+    const height = 0.5;
 
     // Width is automatically adjusted
     textMesh.scale.set(height * textData.aspect, height, 1);
