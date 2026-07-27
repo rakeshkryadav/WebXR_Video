@@ -5,7 +5,11 @@ console.log("test 07");
 
 const mindarThree = new MindARThree({
     container: document.body,
-    imageTargetSrc: "cards.mind"
+    imageTargetSrc: "cards.mind",
+    filterMinCF: 0.001,         // default: 0.001   (decrease the value to make it less jittery)
+    filterBeta: 0,             // default: 1000    (increase the value to reduce the delay)
+    warmupTolerance: 5,          // default: 5
+    missTolerance: 0,           // default: 5
 });
 
 const { renderer, scene, camera } = mindarThree;
@@ -43,6 +47,28 @@ for (let i = 0; i < 3; i++) {
     );
 
     videoPlane.position.set(0, 1, 0);
+
+    // Load the model
+    loader.load("model.glb", (gltf) => {
+
+        gltf.scene.scale.set(0.6, 0.6, 0.6);
+        gltf.scene.position.set(0, 0.5, 0);
+
+        anchor.group.add(gltf.scene);
+
+        if (gltf.animations.length > 0) {
+            // Create an AnimationMixer
+            const mixer = new THREE.AnimationMixer(gltf.scene);
+
+            // Play all animations
+            gltf.animations.forEach((clip) => {
+                mixer.clipAction(clip).play();
+            });
+
+            mixers.push(mixer);
+        }
+
+    });
 
     // Text
     function createTextTexture(text) {
