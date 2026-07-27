@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { MindARThree } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-console.log("test 17");
+console.log("test 18");
 
 const mindarThree = new MindARThree({
     container: document.body,
@@ -83,7 +83,7 @@ for (let i = 0; i < 3; i++) {
         const canvas = document.createElement("canvas");
         const context = canvas.getContext("2d");
 
-        canvas.width = 1600;
+        canvas.width = 800;
 
         const fontSize = 100;
         const padding = 30;
@@ -120,8 +120,10 @@ for (let i = 0; i < 3; i++) {
         context.font = `${fontSize}px Arial`;
 
         // Background
-        context.fillStyle = "rgba(0,0,0,0.85)";
+        context.beginPath();
         context.roundRect(0, 0, canvas.width, canvas.height, 30);
+        context.fillStyle = "rgba(0,0,0,0.9)";
+        context.fill();
 
         // Text
         context.fillStyle = "white";
