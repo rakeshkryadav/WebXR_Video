@@ -2,13 +2,13 @@ import * as THREE from "three";
 import { MindARThree } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-console.log("test 23");
+console.log("test 24");
 
 const mindarThree = new MindARThree({
     container: document.body,
     imageTargetSrc: "cards.mind",
     filterMinCF: 0.001,         // default: 0.001   (decrease the value to make it less jittery)
-    filterBeta: 10,             // default: 1000    (increase the value to reduce the delay)
+    filterBeta: 5,             // default: 1000    (increase the value to reduce the delay)
     warmupTolerance: 5,          // default: 5
     missTolerance: 0,           // default: 5
 });
@@ -197,13 +197,16 @@ for (let i = 0; i < 3; i++) {
     // Save references for click detection
     clickableObjects.push({
         button: playPauseButton,
+        videoPlane,
         video,
         playTexture,
-        pauseTexture
+        pauseTexture,
+        hideTimer: null
     });
 
     // Auto play when target found
-    anchor.onTargetFound = async () => {
+    anchor.onTargetFound = () => {
+        playPauseButton.visible = true;
         playPauseButton.material.map = playTexture;
         playPauseButton.material.needsUpdate = true;
     };
@@ -211,6 +214,8 @@ for (let i = 0; i < 3; i++) {
     anchor.onTargetLost = () => {
         video.pause();
         video.currentTime = 0;
+
+        playPauseButton.visible = true;
         playPauseButton.material.map = playTexture;
         playPauseButton.material.needsUpdate = true;
     };
@@ -229,25 +234,45 @@ function handleInteraction(event) {
 
     clickableObjects.forEach((item) => {
 
-        const hits = raycaster.intersectObject(item.button);
+        // Click on button
+        const buttonHit = raycaster.intersectObject(item.button);
 
-        if (hits.length > 0) {
+        if (buttonHit.length > 0 && item.video.paused) {
 
-            if (item.video.paused) {
-                item.video.muted = false;
-                item.video.play();
-                item.button.material.map = item.pauseTexture;
-                console.log("Play");
-            } else {
-                item.video.pause();
-                item.button.material.map = item.playTexture;
-                console.log("Pause");
-            }
+            item.video.muted = false;
+            item.video.play();
 
+            item.button.visible = true;
+            item.button.material.map = item.pauseTexture;
+            item.button.material.needsUpdate = true;
+
+            // Cancel previous timer
+            if (item.hideTimer) clearTimeout(item.hideTimer);
+
+            // Hide after 1 second
+            item.hideTimer = setTimeout(() => {
+                item.button.visible = false;
+            }, 1000);
+
+            return;
+        }
+
+        // Click on video
+        const videoHit = raycaster.intersectObject(item.videoPlane);
+
+        if (videoHit.length > 0 && !item.video.paused) {
+
+            item.video.pause();
+
+            if (item.hideTimer) clearTimeout(item.hideTimer);
+
+            item.button.visible = true;
+            item.button.material.map = item.playTexture;
             item.button.material.needsUpdate = true;
         }
 
     });
+
 }
 
 window.addEventListener("pointerdown", handleInteraction);
