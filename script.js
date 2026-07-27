@@ -2,13 +2,13 @@ import * as THREE from "three";
 import { MindARThree } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-console.log("test 22");
+console.log("test 23");
 
 const mindarThree = new MindARThree({
     container: document.body,
     imageTargetSrc: "cards.mind",
     filterMinCF: 0.001,         // default: 0.001   (decrease the value to make it less jittery)
-    filterBeta: 0,             // default: 1000    (increase the value to reduce the delay)
+    filterBeta: 10,             // default: 1000    (increase the value to reduce the delay)
     warmupTolerance: 5,          // default: 5
     missTolerance: 0,           // default: 5
 });
