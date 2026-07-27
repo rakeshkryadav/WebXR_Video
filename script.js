@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { MindARThree } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-console.log("test 21");
+console.log("test 22");
 
 const mindarThree = new MindARThree({
     container: document.body,
@@ -28,7 +28,11 @@ const loader = new GLTFLoader();
 const mixers = [];
 const clock = new THREE.Clock();
 
-const messageText = "UPICON wishes you Happy 80th Independence Day";
+const messageText = [
+    "VAA wishes you Happy 80th Independence Day",
+    "UFS Digital wishes you Happy 80th Independence Day",
+    "UPICON wishes you Happy 80th Independence Day"
+];
 
 for (let i = 0; i < 3; i++) {
 
@@ -153,7 +157,7 @@ for (let i = 0; i < 3; i++) {
     }
 
     // Create text texture
-    const textData = createTextTexture(messageText);
+    const textData = createTextTexture(messageText[i]);
 
     const textMesh = new THREE.Sprite(
         new THREE.SpriteMaterial({
