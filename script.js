@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { MindARThree } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-console.log("test 19");
+console.log("test 20");
 
 const mindarThree = new MindARThree({
     container: document.body,
@@ -83,7 +83,7 @@ for (let i = 0; i < 3; i++) {
         const canvas = document.createElement("canvas");
         const context = canvas.getContext("2d");
 
-        canvas.width = 800;
+        canvas.width = 1000;
 
         const fontSize = 100;
         const padding = 30;
@@ -163,7 +163,7 @@ for (let i = 0; i < 3; i++) {
     );
 
     // Height of the sprite in world units
-    const height = 0.5;
+    const height = 0.75;
 
     // Width is automatically adjusted
     textMesh.scale.set(height * textData.aspect, height, 1);
