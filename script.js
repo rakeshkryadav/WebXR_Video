@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { MindARThree } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-console.log("test 14");
+console.log("test 15");
 
 const mindarThree = new MindARThree({
     container: document.body,
@@ -83,52 +83,65 @@ for (let i = 0; i < 3; i++) {
         const canvas = document.createElement("canvas");
         const context = canvas.getContext("2d");
 
-        const fontSize = 100;
-        const paddingX = 50;
-        const paddingY = 25;
-        const radius = 20;
+        canvas.width = 800;
 
+        // Font
+        const fontSize = 150;
         context.font = `${fontSize}px Arial`;
 
-        // Measure text
-        const textWidth = context.measureText(text).width;
+        const maxWidth = canvas.width - 80; // 40px padding on each side
+        const lineHeight = fontSize + 20;
 
-        // Resize canvas according to text
-        canvas.width = Math.ceil(textWidth + paddingX * 2);
-        canvas.height = fontSize + paddingY * 2;
+        // Wrap Text
+        const words = text.split(" ");
+        const lines = [];
+        let line = "";
 
-        // Need to set font again after resizing
+        words.forEach(word => {
+            const testLine = line ? `${line} ${word}` : word;
+            const width = context.measureText(testLine).width;
+
+            if (width > maxWidth) {
+                lines.push(line);
+                line = word;
+            } else {
+                line = testLine;
+            }
+        });
+
+        if (line) lines.push(line);
+
+        // Resize canvas
+        canvas.height = lines.length * lineHeight + 60;
+
+        // Need to reset font after changing canvas size
         context.font = `${fontSize}px Arial`;
 
         // Background
-        context.fillStyle = "rgba(0,0,0,0.9)";
         context.beginPath();
-        context.roundRect(
-            0,
-            0,
-            canvas.width,
-            canvas.height,
-            radius
-        );
+        context.roundRect(0, 0, canvas.width, canvas.height, 30);
+        context.fillStyle = "rgba(0,0,0,0.9)";
         context.fill();
 
         // Text
         context.fillStyle = "white";
         context.textAlign = "center";
         context.textBaseline = "middle";
-        context.fillText(
-            text,
-            canvas.width / 2,
-            canvas.height / 2
-        );
+
+        const startY = (canvas.height - (lines.length - 1) * lineHeight) / 2;
+
+        lines.forEach((line, index) => {
+            context.fillText(
+                line,
+                canvas.width / 2,
+                startY + index * lineHeight
+            );
+        });
 
         const texture = new THREE.CanvasTexture(canvas);
         texture.needsUpdate = true;
 
-        return {
-            texture,
-            aspect: canvas.width / canvas.height
-        };
+        return texture;
     }
 
     // Create text texture
