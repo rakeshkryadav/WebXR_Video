@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { MindARThree } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-console.log("test 13");
+console.log("test 14");
 
 const mindarThree = new MindARThree({
     container: document.body,
@@ -83,39 +83,70 @@ for (let i = 0; i < 3; i++) {
         const canvas = document.createElement("canvas");
         const context = canvas.getContext("2d");
 
-        canvas.width = 1600;
-        canvas.height = 150;
+        const fontSize = 100;
+        const paddingX = 50;
+        const paddingY = 25;
+        const radius = 20;
 
-        // Set font after resizing canvas
-        context.font = "200px Arial";
+        context.font = `${fontSize}px Arial`;
+
+        // Measure text
+        const textWidth = context.measureText(text).width;
+
+        // Resize canvas according to text
+        canvas.width = Math.ceil(textWidth + paddingX * 2);
+        canvas.height = fontSize + paddingY * 2;
+
+        // Need to set font again after resizing
+        context.font = `${fontSize}px Arial`;
 
         // Background
-        context.beginPath();
-        context.roundRect(0, 0, canvas.width, canvas.height, 30);
         context.fillStyle = "rgba(0,0,0,0.9)";
+        context.beginPath();
+        context.roundRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height,
+            radius
+        );
         context.fill();
 
         // Text
         context.fillStyle = "white";
         context.textAlign = "center";
         context.textBaseline = "middle";
-        context.fillText(text, canvas.width / 2, canvas.height / 2);
+        context.fillText(
+            text,
+            canvas.width / 2,
+            canvas.height / 2
+        );
 
         const texture = new THREE.CanvasTexture(canvas);
         texture.needsUpdate = true;
-        return texture;
+
+        return {
+            texture,
+            aspect: canvas.width / canvas.height
+        };
     }
 
-    const textTexture = createTextTexture(messageText);
+    // Create text texture
+    const textData = createTextTexture(messageText);
 
     const textMesh = new THREE.Sprite(
         new THREE.SpriteMaterial({
-            map: textTexture,
+            map: textData.texture,
             transparent: true
         })
     );
 
-    textMesh.scale.set(0.5, 0.125, 1);
+    // Height of the sprite in world units
+    const height = 0.15;
+
+    // Width is automatically adjusted
+    textMesh.scale.set(height * textData.aspect, height, 1);
+
     textMesh.position.set(0, -0.52, 0.01);
 
 
@@ -132,7 +163,7 @@ for (let i = 0; i < 3; i++) {
         })
     );
 
-    playPauseButton.position.set(0, 0.75, 0.01);
+    playPauseButton.position.set(0, 1.5, 0.01);
 
     anchor.group.add(videoPlane);
     anchor.group.add(playPauseButton);
