@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { MindARThree } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-console.log("test 08");
+console.log("test 09");
 
 const mindarThree = new MindARThree({
     container: document.body,
@@ -23,6 +23,7 @@ const clickableObjects = [];
 
 const loader = new GLTFLoader();
 const mixers = [];
+const clock = new THREE.Clock();
 
 const messageText = "Click the Play Button to Start Video";
 
@@ -196,6 +197,12 @@ window.addEventListener("pointerdown", handleInteraction);
 await mindarThree.start();
 
 renderer.setAnimationLoop(() => {
+    const delta = clock.getDelta();
+
+    mixers.forEach((mixer) => {
+        mixer.update(delta);
+    });
+
     renderer.render(scene, camera);
 });
 
