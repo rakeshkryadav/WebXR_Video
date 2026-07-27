@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { MindARThree } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-console.log("test 11");
+console.log("test 12");
 
 const mindarThree = new MindARThree({
     container: document.body,
@@ -54,7 +54,7 @@ for (let i = 0; i < 3; i++) {
         })
     );
 
-    videoPlane.position.set(0, 1, 0);
+    videoPlane.position.set(0, 1.5, 0);
 
     // Model
     loader.load("model.glb", (gltf) => {
@@ -132,7 +132,7 @@ for (let i = 0; i < 3; i++) {
         })
     );
 
-    playPauseButton.position.set(0, 0.25, 0.01);
+    playPauseButton.position.set(0, 0.75, 0.01);
 
     anchor.group.add(videoPlane);
     anchor.group.add(playPauseButton);
