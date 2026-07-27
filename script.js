@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { MindARThree } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-console.log("test 10");
+console.log("test 11");
 
 const mindarThree = new MindARThree({
     container: document.body,
@@ -46,7 +46,7 @@ for (let i = 0; i < 3; i++) {
     const texture = new THREE.VideoTexture(video);
 
     const videoPlane = new THREE.Mesh(
-        new THREE.PlaneGeometry(2, 1.125),
+        new THREE.PlaneGeometry(0.9, 0.8),
         new THREE.MeshBasicMaterial({
             map: texture,
             side: THREE.DoubleSide,
@@ -56,7 +56,7 @@ for (let i = 0; i < 3; i++) {
 
     videoPlane.position.set(0, 1, 0);
 
-    // Load the model
+    // Model
     loader.load("model.glb", (gltf) => {
 
         gltf.scene.scale.set(0.6, 0.6, 0.6);
