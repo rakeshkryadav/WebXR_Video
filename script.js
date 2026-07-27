@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { MindARThree } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-console.log("test 12");
+console.log("test 13");
 
 const mindarThree = new MindARThree({
     container: document.body,
@@ -87,7 +87,7 @@ for (let i = 0; i < 3; i++) {
         canvas.height = 150;
 
         // Set font after resizing canvas
-        context.font = "96px Arial";
+        context.font = "200px Arial";
 
         // Background
         context.beginPath();
