@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { MindARThree } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-console.log("test 27");
+console.log("test 28");
 
 const mindarThree = new MindARThree({
     container: document.body,
@@ -60,8 +60,8 @@ for (let i = 0; i < 3; i++) {
 
     videoPlane.position.set(0, 1.5, 0);
 
-    // Model
-    loader.load("model.glb", (gltf) => {
+    // Model Flag
+    loader.load("model/model.glb", (gltf) => {
 
         gltf.scene.scale.set(0.6, 0.6, 0.6);
         gltf.scene.position.set(0, 0.5, 0);
@@ -79,6 +79,17 @@ for (let i = 0; i < 3; i++) {
 
             mixers.push(mixer);
         }
+
+    });
+
+    // Model India gate
+    loader.load("model/indiagate.glb", (gltf) => {
+
+        gltf.scene.scale.set(0.6, 0.6, 0.6);
+        gltf.scene.position.set(0.65, 0.5, 0);
+        gltf.scene.rotation.set(0, 0, THREE.MathUtils.degToRad(45));
+
+        anchor.group.add(gltf.scene);
 
     });
 
