@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { MindARThree } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-console.log("test 29");
+console.log("test 30");
 
 const mindarThree = new MindARThree({
     container: document.body,
@@ -374,7 +374,7 @@ renderer.setAnimationLoop(() => {
 
 // Share Button
 var message = "Check out AR Experience!";
-var url = "https://rakeshkryadav.github.io/WebXR_Video";
+var webURL = "https://rakeshkryadav.github.io/WebXR_Video";
 
 const shareBtn = document.getElementById("shareBtn");
 const panel = document.querySelector(".panel");
@@ -403,7 +403,10 @@ document.querySelectorAll(".card-btn").forEach(button => {
 
 async function shareWebsite(imagePath, text, url) {
     // Hide panel
-        panel.classList.remove("show");
+    panel.classList.remove("show");
+
+    text = message;
+    url = webURL;
 
     try {
         await mindarThree.stop();
