@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { MindARThree } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-console.log("test 28");
+console.log("test 29");
 
 const mindarThree = new MindARThree({
     container: document.body,
@@ -34,6 +34,14 @@ const messageText = [
     "UPICON wishes you Happy 80th Independence Day"
 ];
 
+// Confetti particle properties
+const confettiParticles = [];
+const confettiColors = [
+    0xff9933, // Saffron
+    0xffffff, // White
+    0x138808  // Green
+];
+
 for (let i = 0; i < 3; i++) {
 
     const anchor = mindarThree.addAnchor(i);
@@ -59,6 +67,42 @@ for (let i = 0; i < 3; i++) {
     );
 
     videoPlane.position.set(0, 1.5, 0);
+
+    // Confetti particles
+    for (let j = 0; j < 150; j++) {
+        const confetti = new THREE.Mesh(
+            new THREE.PlaneGeometry(0.025, 0.05),
+            new THREE.MeshBasicMaterial({
+                color: confettiColors[Math.floor(Math.random() * 3)],
+                side: THREE.DoubleSide
+            })
+        );
+
+        confetti.position.set(
+            (Math.random() - 0.5) * 2.5,   // X
+            2 + Math.random() * 1.5,       // Y
+            (Math.random() - 0.5) * 0.8    // Z
+        );
+
+        confetti.rotation.set(
+            Math.random() * Math.PI,
+            Math.random() * Math.PI,
+            Math.random() * Math.PI
+        );
+
+        anchor.group.add(confetti);
+
+        confettiParticles.push({
+            mesh: confetti,
+            speed: 0.15 + Math.random() * 0.75,
+            spinX: (Math.random() - 0.5) * 6,
+            spinY: (Math.random() - 0.5) * 6,
+            spinZ: (Math.random() - 0.5) * 6,
+            sway: Math.random() * Math.PI * 2
+        });
+
+    }
+
 
     // Model Flag
     loader.load("model/model.glb", (gltf) => {
@@ -296,6 +340,32 @@ renderer.setAnimationLoop(() => {
 
     mixers.forEach((mixer) => {
         mixer.update(delta);
+    });
+
+    const time = clock.elapsedTime;
+
+    confettiParticles.forEach((p) => {
+
+        p.mesh.position.y -= p.speed * delta;
+
+        // Gentle side-to-side movement
+        p.mesh.position.x += Math.sin(time * 2 + p.sway) * 0.0015;
+
+        // Spin
+        p.mesh.rotation.x += p.spinX * delta;
+        p.mesh.rotation.y += p.spinY * delta;
+        p.mesh.rotation.z += p.spinZ * delta;
+
+        // Respawn at the top
+        if (p.mesh.position.y < -1) {
+
+            p.mesh.position.y = 2 + Math.random();
+
+            p.mesh.position.x = (Math.random() - 0.5) * 2.5;
+
+            p.mesh.position.z = (Math.random() - 0.5) * 0.8;
+        }
+
     });
 
     renderer.render(scene, camera);
