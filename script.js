@@ -50,7 +50,7 @@ for (let i = 0; i < 3; i++) {
     const texture = new THREE.VideoTexture(video);
 
     const videoPlane = new THREE.Mesh(
-        new THREE.PlaneGeometry(0.9, 0.8),
+        new THREE.PlaneGeometry(1.8, 1.6),
         new THREE.MeshBasicMaterial({
             map: texture,
             side: THREE.DoubleSide,
