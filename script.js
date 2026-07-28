@@ -64,7 +64,7 @@ for (let i = 0; i < 3; i++) {
     loader.load("model/model.glb", (gltf) => {
 
         gltf.scene.scale.set(0.6, 0.6, 0.6);
-        gltf.scene.position.set(0, 0.5, 0);
+        gltf.scene.position.set(-0.3, 0.5, 0);
 
         anchor.group.add(gltf.scene);
 
@@ -86,7 +86,7 @@ for (let i = 0; i < 3; i++) {
     loader.load("model/indiagate.glb", (gltf) => {
 
         gltf.scene.scale.set(0.6, 0.6, 0.6);
-        gltf.scene.position.set(0.65, 0.5, 0);
+        gltf.scene.position.set(0.35, 0.5, 0);
         gltf.scene.rotation.set(0, 0, THREE.MathUtils.degToRad(45));
 
         anchor.group.add(gltf.scene);
