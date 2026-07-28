@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { MindARThree } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-console.log("test 26");
+console.log("test 27");
 
 const mindarThree = new MindARThree({
     container: document.body,
@@ -65,7 +65,6 @@ for (let i = 0; i < 3; i++) {
 
         gltf.scene.scale.set(0.6, 0.6, 0.6);
         gltf.scene.position.set(0, 0.5, 0);
-        gltf.scene.rotation.set(THREE.MathUtils.degToRad(-30), 0, 0);
 
         anchor.group.add(gltf.scene);
 
