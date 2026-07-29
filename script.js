@@ -50,7 +50,7 @@ for (let i = 0; i < 3; i++) {
     loader.load("model/board.glb", (gltf) => {
 
         gltf.scene.scale.set(0.6, 0.6, 0.6);
-        gltf.scene.position.set(0, 1.281, 0);
+        gltf.scene.position.set(0, 1.282, 0);
         gltf.scene.rotation.set(0, 0, THREE.MathUtils.degToRad(90));
 
         anchor.group.add(gltf.scene);
