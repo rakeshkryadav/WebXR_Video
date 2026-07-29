@@ -46,6 +46,17 @@ for (let i = 0; i < 3; i++) {
 
     const anchor = mindarThree.addAnchor(i);
 
+    // Model Board
+    loader.load("model/board.glb", (gltf) => {
+
+        gltf.scene.scale.set(0.6, 0.6, 0.6);
+        gltf.scene.position.set(0, 1.531, 0);
+        gltf.scene.rotation.set(0, 0, THREE.MathUtils.degToRad(90));
+
+        anchor.group.add(gltf.scene);
+
+    });
+
     // Video
     const video = document.createElement("video");
     video.src = "video/video.mp4";
@@ -58,7 +69,7 @@ for (let i = 0; i < 3; i++) {
     const texture = new THREE.VideoTexture(video);
 
     const videoPlane = new THREE.Mesh(
-        new THREE.PlaneGeometry(1.8, 1.6),
+        new THREE.PlaneGeometry(1.6, 1.12),        // 9x8 ratio 1.26x1.12
         new THREE.MeshBasicMaterial({
             map: texture,
             side: THREE.DoubleSide,
@@ -66,7 +77,7 @@ for (let i = 0; i < 3; i++) {
         })
     );
 
-    videoPlane.position.set(0, 1.5, 0.5);
+    videoPlane.position.set(0, 1.5, 0.725);
     videoPlane.rotation.set(THREE.MathUtils.degToRad(90), 0, 0);
 
     // Confetti particles
@@ -106,7 +117,7 @@ for (let i = 0; i < 3; i++) {
 
 
     // Model Flag
-    loader.load("model/model.glb", (gltf) => {
+    loader.load("model/flag.glb", (gltf) => {
 
         gltf.scene.scale.set(0.6, 0.6, 0.6);
         gltf.scene.position.set(-0.3, 0.5, 0);
@@ -244,7 +255,7 @@ for (let i = 0; i < 3; i++) {
         })
     );
 
-    playPauseButton.position.set(0, 1.49, 0.5);
+    playPauseButton.position.set(0, 1.49, 0.725);
     playPauseButton.rotation.set(THREE.MathUtils.degToRad(90), 0, 0);
 
     anchor.group.add(videoPlane);
