@@ -66,7 +66,8 @@ for (let i = 0; i < 3; i++) {
         })
     );
 
-    videoPlane.position.set(0, 1.5, 0);
+    videoPlane.position.set(0, 1.5, 0.5);
+    videoPlane.rotation.set(THREE.MathUtils.degToRad(90), 0, 0);
 
     // Confetti particles
     for (let j = 0; j < 150; j++) {
@@ -243,7 +244,8 @@ for (let i = 0; i < 3; i++) {
         })
     );
 
-    playPauseButton.position.set(0, 1.5, 0.01);
+    playPauseButton.position.set(0, 1.49, 0.5);
+    playPauseButton.rotation.set(THREE.MathUtils.degToRad(90), 0, 0);
 
     anchor.group.add(videoPlane);
     anchor.group.add(playPauseButton);
