@@ -50,7 +50,7 @@ for (let i = 0; i < 3; i++) {
     loader.load("model/board.glb", (gltf) => {
 
         gltf.scene.scale.set(0.6, 0.6, 0.6);
-        gltf.scene.position.set(0, 1.531, 0);
+        gltf.scene.position.set(0, 1.281, 0);
         gltf.scene.rotation.set(0, 0, THREE.MathUtils.degToRad(90));
 
         anchor.group.add(gltf.scene);
@@ -77,7 +77,7 @@ for (let i = 0; i < 3; i++) {
         })
     );
 
-    videoPlane.position.set(0, 1.5, 0.725);
+    videoPlane.position.set(0, 1.25, 0.725);
     videoPlane.rotation.set(THREE.MathUtils.degToRad(90), 0, 0);
 
     // Confetti particles
@@ -255,7 +255,7 @@ for (let i = 0; i < 3; i++) {
         })
     );
 
-    playPauseButton.position.set(0, 1.49, 0.725);
+    playPauseButton.position.set(0, 1.24, 0.725);
     playPauseButton.rotation.set(THREE.MathUtils.degToRad(90), 0, 0);
 
     anchor.group.add(videoPlane);
